@@ -5,6 +5,32 @@ module.exports = {
     author: `@gatsbyjs`,
   },
   plugins: [
+      `gatsby-plugin-styled-components`,
+      {
+        resolve: 'gatsby-source-firestore',
+        options: {
+          credential: require('./firebase.json'),
+          types: [
+            {
+              type: 'barbekus',
+              collection: 'barbeku',
+              map: doc => ({
+                title: doc.title,
+                summary: doc.summary,
+                imageUrl: doc.imageUrl,
+                author___NODE: doc.author.id
+              }),
+            },
+            {
+              type: 'author',
+              collection: 'authors',
+              map: doc => ({
+                name: doc.name
+              })
+            }
+          ]
+        }
+      },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -27,6 +53,13 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
+    {
+      resolve: `gatsby-plugin-remote-images`,
+      options: {
+        nodeType: 'barbekus',
+        imagePath: 'imageUrl',
+      }
+    }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

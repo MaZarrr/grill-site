@@ -11,8 +11,10 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+import {FirebaseContext, useAuth} from './Firebase';
 
 const Layout = ({ children }) => {
+  const{user, firebase, loading} = useAuth();
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -24,7 +26,7 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
+    <FirebaseContext.Provider value={{user, firebase, loading}}>
       <Header siteTitle={data.site.siteMetadata.title} />
       <div
         style={{
@@ -35,13 +37,13 @@ const Layout = ({ children }) => {
         }}
       >
         <main>{children}</main>
-        <footer>
+        {/* <footer>
           © {new Date().getFullYear()}, Built with
           {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
+        </footer> */}
       </div>
-    </>
+      </FirebaseContext.Provider>
   )
 }
 
