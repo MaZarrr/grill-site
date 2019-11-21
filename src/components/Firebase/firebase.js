@@ -22,6 +22,32 @@ class Firebase {
     .onSnapshot(onSnapshot)
   }
 
+  async createAuthor({authorName}) {
+    const createAuthorCallable = this.functions.httpsCallable('createAuthor');
+    return createAuthorCallable({
+      authorName
+    });
+  }
+
+  // создадим новую асинхронную книгу создания, и мы хотим передать имя книги автору I.D. и обложка книги
+  async createGril({grilName, authorId, grilCover, summary}) {
+    // Итак, давайте продолжим создание вызываемой книги, равной этой точечной функции точек HDTV да вызываемой, и именем вызываемой функции будет создание книги, тогда мы можем вернуть создание вызываемой книги, передавая имя автора книги И.Д.
+    // и обложка книги, так что затем добавить форму книги добавить мы хотим добавить некоторые состояния
+    const createGrilCallable = this.functions.httpsCallable('createGril');
+    return createGrilCallable({
+      grilName,
+      authorId,
+      grilCover,
+      summary
+    })
+
+  }
+
+  async getAuthors() {
+    // теперь мы можем запрашивать авторов из внешнего интерфейса из-за обновлений правил, которые мы только что сделали
+    return this.db.collection('authors').get();
+  }
+
   async reqister({email, password, username}) {
     await this.auth.createUserWithEmailAndPassword(email, password);
     const createProfileCallable = this.functions.httpsCallable('createPublicProfile');

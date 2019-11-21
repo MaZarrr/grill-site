@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {Form, Input, Button, ErrorMessage} from '../components/common';
 import {FirebaseContext} from '../components/Firebase';
 
@@ -13,6 +13,14 @@ const Register = () => {
         username: ''
     });
     
+    let isMounted = true;
+
+    useEffect(() => {
+      return () => {
+        isMounted = false;
+      }
+    }, []);
+
     const handleInputChange = e => {
         e.persist();
         setErrorMessege('');
@@ -24,13 +32,14 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+        console.log(formValue);
         if(formValue.password === formValue.confirmPassword) {
             firebase.reqister({
                 email: formValue.email,
                 password: formValue.password,
                 username: formValue.username
             }).catch(error => {
+                if(isMounted) {
                 console.log(error);
                 if(error.code === 'auth/email-already-in-use') {
                     setErrorMessege('Неверный email');
@@ -39,6 +48,7 @@ const Register = () => {
                 } else {
                     setErrorMessege(error.message);
                 }
+            }
               });
         }else{
             setErrorMessege('Пароли не совпадают')

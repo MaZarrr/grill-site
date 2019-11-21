@@ -1,24 +1,33 @@
 // import { Link } from "gatsby"
 // import Layout from "../components/layout"
 // import SEO from "../components/seo"
-// import {useAuth} from './../components/Firebase';
-import React, {useState, useContext} from "react"
+import {useAuth} from './../components/Firebase';
+import React, {useState, useContext, useEffect} from "react"
 import {FirebaseContext} from './../components/Firebase';
 import {Form, Input, Button, ErrorMessage} from '../components/common'
 
 const Login = () => {
-// console.log(useAuth());
+    console.log(useAuth());
     const [formValues, setFormatValues] = useState({email: '', password: ''});
     const {firebase} = useContext(FirebaseContext);
     const [errorMassege, setErrorMessege] = useState('');
+    let isMounted = true; // isMounted переводится как монтируется
+
+  useEffect(() => {
+    return () => {
+      isMounted = false;
+    }
+  }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         firebase.login({email: formValues.email, password: formValues.password}).catch(error => {
+          if(isMounted) {
           console.log(error);
           setErrorMessege(error.message);
-        })
+          }
+        });
     }
 
     const handleInputChange = (e) => {

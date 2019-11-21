@@ -11,6 +11,13 @@ const LogoutLink = styled.span `
     text-decoration: underline;
   }
 `
+const AdminLink = styled.span `
+  a {
+    color: white;
+    text-decoration: none;
+    cursor:pointer;
+  }
+`
 
 const HeaderWrapper = styled.header `
       background: rebeccapurple;
@@ -45,7 +52,7 @@ const UserInfo = styled.div `
   color: white;
 `
 const LoginLink = styled.div `
-  margi: auto 0;
+  margin: auto 0;
   a{
     color: white;
     text-decoration: none;
@@ -73,6 +80,22 @@ const Header = ({ siteTitle }) => {
           <UserInfo> 
           Привет {user.username || user.email}
           <div>
+          {!!user.isAdmin && 
+            <>
+            <AdminLink>
+            <Link to="/add-author">
+              Добавить автора
+            </Link>
+            </AdminLink>
+            <Divider />
+            <AdminLink>
+            <Link to="/add-gril">
+              Добавить товар
+            </Link>
+            <Divider />
+            </AdminLink>
+            </>
+          }
           <LogoutLink onClick={handleLogoutClick}>
             Выйти
           </LogoutLink>
