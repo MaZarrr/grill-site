@@ -1,5 +1,5 @@
-export * from './button'
+export * from './Button'
 export * from './Form'
-export * from './input'
+export * from './Input'
 export * from './ErrorMessage' 
 export * from './GrilComments' 
