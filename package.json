@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "gril-site",
+=======
+  "name": "grill-site",
+>>>>>>> update json
   "private": true,
   "description": "A simple starter to get up and developing quickly with Gatsby",
   "version": "0.1.0",
